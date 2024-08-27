@@ -1,53 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- 指定文件的字符編碼 -->
+    <!-- 指定文件的字符編碼為UTF-8 -->
     <meta charset="UTF-8">
     
-    <!-- 設定瀏覽器的視口，以適應不同設備 -->
+    <!-- 設置視口的寬度為設備寬度，並設置初始縮放比例為1.0 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- 頁面的標題 -->
+    <!-- 頁面標題，顯示在瀏覽器標籤上 -->
     <title>2019-1-lee</title>
     
-    <!-- 引入Bootstrap的CSS文件，用於樣式設計 -->
+    <!-- 引入Bootstrap的CSS文件，用於設計頁面樣式 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     
     <!-- 引入jQuery庫，用於操作DOM和處理事件 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
-    <!-- 引入Bootstrap的JavaScript文件，用於啟用模態框等互動效果 -->
+    <!-- 引入Bootstrap的JavaScript文件，用於啟用模態框等交互效果 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <!-- 定義自訂樣式，用於設置遊戲板和模態框的樣式 -->
+    <style>
+        /* 設置遊戲板的樣式為網格佈局，每個格子100x100像素，間隔5像素 */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+            width: 315px;
+        }
+        /* 設置每個格子的樣式：背景色、文本居中、白色字體、大號字體、指標樣式 */
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            color: white;
+            cursor: pointer;
+        }
+        /* 設置模態框標題和主體部分的背景色 */
+        .modal-header, .modal-body {
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
 <body>
 
-<!-- 模態框（Modal）的容器 -->
+<!-- 模態框的容器，使用Bootstrap的模態框組件 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <!-- 定義模態框的對話框 -->
+    <!-- 模態框的對話框 -->
     <div class="modal-dialog">
-        <!-- 定義模態框的內容 -->
+        <!-- 模態框的內容 -->
         <div class="modal-content">
-            <!-- 模態框的標題部分，使用文字居中 -->
+            <!-- 模態框的標題部分，內容居中 -->
             <div class="modal-header text-center">
-                <!-- 顯示模態框的標題 -->
-                <h2>請選擇 O X</h2>
+                <!-- 標題文本 -->
+                <h2>請選擇 O 或 X</h2>
             </div>
-            <!-- 模態框的內容部分，按鈕居中顯示 -->
+            <!-- 模態框的主體部分，按鈕居中 -->
             <div class="modal-body text-center">
-                <!-- 第一個按鈕，用於選擇"O"並關閉模態框 -->
-                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><h3>O</h3></button>
-                <!-- 第二個按鈕，用於選擇"X"並關閉模態框 -->
-                <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"><h3>X</h3></button>
+                <!-- 按鈕：選擇"O"，點擊後關閉模態框並設置玩家符號為O -->
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal" id="chooseO"><h3>O</h3></button>
+                <!-- 按鈕：選擇"X"，點擊後關閉模態框並設置玩家符號為X -->
+                <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal" id="chooseX"><h3>X</h3></button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->-
-</div><!-- /.modal -->
+        </div><!-- /.modal-content 結束 -->
+    </div><!-- /.modal-dialog 結束 -->
+</div><!-- /.modal 結束 -->
 
-<!-- 當頁面加載完成後，自動顯示模態框 -->
-<script type="text/javascript">
-    $(function(){ //$為jquery程式起始處 $(function{ " jquery內容 " })
-        // 顯示ID為myModal的模態框
+<!-- 遊戲板，使用3x3的網格佈局，每個格子是一個可點擊的單元格 -->
+<div class="board">
+    <div class="cell" data-index="0"></div>
+    <div class="cell" data-index="1"></div>
+    <div class="cell" data-index="2"></div>
+    <div class="cell" data-index="3"></div>
+    <div class="cell" data-index="4"></div>
+    <div class="cell" data-index="5"></div>
+    <div class="cell" data-index="6"></div>
+    <div class="cell" data-index="7"></div>
+    <div class="cell" data-index="8"></div>
+</div>
+
+<script>
+    $(function(){
+        // 頁面加載完成後，顯示ID為myModal的模態框，提示玩家選擇O或X
         $("#myModal").modal();
+
+        // 定義變量
+        let playerSymbol = ''; // 玩家選擇的符號（O或X）
+        let computerSymbol = ''; // 電腦選擇的符號（X或O）
+        let currentPlayer = ''; // 當前回合的玩家（"player"或"computer"）
+        let board = ['', '', '', '', '', '', '', '', '']; // 遊戲板的初始狀態（9個空格）
+
+        // 選擇O按鈕的點擊事件處理
+        $("#chooseO").click(function() {
+            playerSymbol = 'O'; // 設置玩家符號為O
+            computerSymbol = 'X'; // 設置電腦符號為X
+            startGame(); // 開始遊戲
+        });
+
+        // 選擇X按鈕的點擊事件處理
+        $("#chooseX").click(function() {
+            playerSymbol = 'X'; // 設置玩家符號為X
+            computerSymbol = 'O'; // 設置電腦符號為O
+            startGame(); // 開始遊戲
+        });
+
+        // 開始遊戲函數
+        function startGame() {
+            // 隨機決定誰先開始
+            currentPlayer = Math.random() < 0.5 ? 'player' : 'computer';
+            if (currentPlayer === 'computer') {
+                computerMove(); // 如果電腦先手，執行電腦的移動
+            }
+        }
+
+        // 電腦的移動邏輯
+        function computerMove() {
+            // 找到所有空的格子
+            let emptyCells = board.map((val, idx) => val === '' ? idx : null).filter(val => val !== null);
+            // 隨機選擇一個空格子進行移動
+            let move = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+            board[move] = computerSymbol; // 更新遊戲板
+            updateBoard(); // 更新UI顯示
+            checkGameState(); // 檢查遊戲狀態
+            currentPlayer = 'player'; // 切換回合到玩家
+        }
+
+        // 玩家移動邏輯
+        function playerMove(index) {
+            if (board[index] === '' && currentPlayer === 'player') {
+                board[index] = playerSymbol; // 更新遊戲板
+                updateBoard(); // 更新UI顯示
+                checkGameState(); // 檢查遊戲狀態
+                currentPlayer = 'computer'; // 切換回合到電腦
+                computerMove(); // 執行電腦的移動
+            }
+        }
+
+        // 更新遊戲板的UI顯示
+        function updateBoard() {
+            $('.cell').each(function(index) {
+                $(this).text(board[index]); // 根據遊戲板的狀態更新每個格子的文本
+            });
+        }
+
+        // 檢查遊戲狀態（是否有勝者或平局）
+        function checkGameState() {
+            // 定義所有可能的勝利組合
+            let winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            // 檢查是否有勝者
+            for (let combo of winningCombinations) {
+                const [a, b, c] = combo;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    if (board[a] === playerSymbol) {
+                        alert("恭喜!你贏了!" + "\n" + "請再試試看一次");
+                    } else {
+                        alert("你輸了!下次再努力!" + "\n" + "請再試試看一次");
+                    }
+                    resetGame(); // 重置遊戲
+                    return;
+                }
+            }
+
+            // 檢查是否平局（所有格子都已填滿）
+            if (board.every(cell => cell !== '')) {
+                alert("這局平手!");
+                resetGame(); // 重置遊戲
+            }
+        }
+
+        // 重置遊戲函數
+        function resetGame() {
+            board = ['', '', '', '', '', '', '', '', '']; // 清空遊戲板
+            updateBoard(); // 更新UI顯示
+            startGame(); // 重新開始遊戲
+        }
+
+        // 綁定玩家點擊事件到每個格子
+        $('.cell').click(function() {
+            let index = $(this).data('index');
+            playerMove(index); // 處理玩家的移動
+        });
     });
 </script>
 
