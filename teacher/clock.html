@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+</head>
+<body>
+    <canvas id="canvas" width="1200" height="600" style="border: 1px solid #000000;">
+    <script>
+
+    var canvas;
+    var g;
+    var radius;
+    
+    init();
+
+    function init(){
+        canvas = document.getElementById("canvas");
+        g = canvas.getContext('2d');
+        radius = canvas.height/2*0.9;
+        setInterval(drawClock,1000);
+    }
+
+
+    function drawClock(){ 
+        g.save();
+        g.clearRect(0,0,canvas.width,canvas.height);
+        g.translate(canvas.width/2,canvas.height/2);
+        drawFace();
+        drawText();
+        drawTime();
+        g.restore();
+    }
+
+    function drawFace(){
+        g.beginPath();
+        // outer cicle
+        g.arc(0,0,radius,0,2*Math.PI);
+        g.fillStyle='rgb(30,30,120,0.5)';
+        g.fill();
+
+        grad = g.createRadialGradient(0,0,radius*0.90, 0,0,radius*1.1);
+        grad.addColorStop(0, '#333');
+        grad.addColorStop(0.5, 'rgb(30,30,70,0.5)');
+        grad.addColorStop(1, '#333');
+        g.strokeStyle = grad;
+        g.lineWidth = radius * 0.1;
+        g.stroke();
+
+        g.beginPath();
+        //inner circle
+        g.arc(0,0,10,0,2*Math.PI);
+        g.fillStyle = '#ﬀf ';
+        g.fill();
+    }
+
+    function drawText(){
+        g.font = 24 + "px arial";
+        g.textBaseline="middle";
+        g.textAlign="center";
+        for(i=1 ; i< 13;i++){
+            g.save();
+            g.rotate(Math.PI/6*i);
+            g.translate(0,-radius*0.85);
+            g.rotate(-Math.PI/6*i);
+            g.fillText(''+i,0,0);
+            g.restore();
+        }
+    }
+    function drawTime(){
+        var date = new Date();
+
+        seconds = date.getSeconds()*6;
+        minites = (date.getMinutes()+ date.getSeconds()/60)*6;
+        hours = (date.getHours()+(date.getMinutes()+ date.getSeconds()/60)/60) %12*30;
+
+        drawHand(seconds,radius*0.8,3);
+        drawHand(minites,radius*0.65,7);
+        drawHand(hours,radius*0.5,10);
+    }
+    function drawHand(angle,length,width){
+        g.save();
+        g.beginPath();
+        g.lineCap='round';
+        g.lineWidth=width;
+        g.rotate(angle*Math.PI/180);
+        g.moveTo(0, 0);
+        g.lineTo(0, -length);
+        g.stroke();
+        g.restore(); 
+    }
+
+    
+
+</script>
+</canvas>
+</body>
+... (還剩 1 行)
