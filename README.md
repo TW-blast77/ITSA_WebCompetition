@@ -4,11 +4,11 @@ This project demonstrates a simple HTML and JavaScript application that allows u
 
 ## Table of Contents
 
-- [HTML Structure](#html-structure)
-- [Meta Tags](#meta-tags)
-- [JavaScript Functionality](#javascript-functionality)
-- [Additional Information](#additional-information)
-- [References](#references)
+- [HTML Structure](#Html-Structure)
+- [Meta Tags](#Meta-Tags)
+- [JavaScript Functionality](#Javascript-Functionality)
+- [Additional Information](#Additional-Information)
+- [References](#References)
 
 ## HTML Structure
 
