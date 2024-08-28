@@ -1,4 +1,4 @@
-# ITSA 全國大專程式設計極客挑戰賽筆記
+# ITSA 全國大專程式設計極客挑戰賽
 ### [資訊系統與網頁設計應用組](https://www.itsa.org.tw/itsacontest/2024/register/index.php) 
 ## Table Generator
 
