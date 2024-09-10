@@ -1,0 +1,96 @@
+<!-- 標籤(tag)- 指定網頁所使用的編碼 https://www.fooish.com/html/meta-charset.html -->
+<!-- SEO_Meta標籤 https://ranking.works/knowledge/meta-tags/ -->
+<!-- HTML Text Formatting: https://www.w3schools.com/html/html_formatting.asp -->
+<!-- CSS text-align: https://developer.mozilla.org/en-US/docs/Web/CSS/text-align -->
+<!-- 認識 <table>、<tr>和<td>: https://steam.oxxostudio.tw/category/html/tags/table-tr-td.html -->
+
+<!DOCTYPE html> <!-- 定義此網站的type;Ctrl K + C可以註解在VScode -->
+<html lang="en"> <!-- Define the language of the web page, but now HTML uses unicode for language encoding <第4行> -->
+
+<!-- head: Web Html Title -->
+<head>
+    <meta charset="UTF-8"> <!-- charset: web html encoding<第48行> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test-01_Lee</title> <!-- title: title Name -->
+</head>
+<!-- head: Web Html Title -->
+ 
+<body>
+    <h1>Generate a Table</h1><!-- 參考<61行> -->
+    <p><b>Please enter the <mark>length</mark>, <mark>width</mark> of the <mark>Generate Table</mark> </b></p>
+    <label>Rows:</label>
+    <input type="text" id="Rows" value="1">
+    <label>Columns:</label>
+    <input type="text" id="Columns" value="1">
+    <!-- button -->
+    <input type="button" onclick="generateTable()" value="Generate Table">
+    
+    <table id="table" border="1"></table>
+    
+    <script>
+        function generateTable() {
+            const rows = parseInt(document.getElementById("Rows").value); //get rows in <22行> "id:Rows"
+            const columns = parseInt(document.getElementById("Columns").value);//get rows in <24行> "id:Columns"
+            const js_table = document.getElementById("table");
+
+            //參考<83行>
+            table.innerHTML = "" //Reset Table
+            js_table.style.cssText = 'font-size: 20px; text-align: center;';
+            js_table.innerHTML += '<tr><th colspan="'+columns+'">GenerateTable</th></tr>';
+            //參考<83行>
+
+            if (rows > 0 && columns > 0) {
+                let number = 0;
+                for (let i = 0; i < rows; i++) {
+                    const tr = document.createElement("tr");
+
+                    for (let j = 0; j < columns; j++) {
+                        const td = document.createElement("th");
+                        td.textContent = number++;
+                        tr.appendChild(td);
+                    }
+
+                    js_table.appendChild(tr);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
+<!-- Additional Information -->
+<!-- "Meta"
+          Meta 標籤名稱	    Meta 標籤作用
+       -----------------------------------
+       1. Meta Title	    網頁的標題
+       2. Meta Description	網頁的內容摘要
+       3. Meta Charset	    字元編碼
+       4. Canonical	        網頁識別
+       5. Viewport	        各裝置顯示
+       6. Robots	        拒絕檢索／索引
+       7. Hreflang	        語種設定
+--> 
+<!-- "HTML Formatting"
+        HTML Formatting Elements
+        --------------------------
+        <b> - Bold text
+        <strong> - Important text
+        <i> - Italic text
+        <em> - Emphasized text
+        <mark> - Marked text
+        <small> - Smaller text
+        <del> - Deleted text
+        <ins> - Inserted text
+        <sub> - Subscript text
+        <sup> - Superscript text
+        <br>  - Tab
+-->
+
+<!--  "table"
+        
+        Table，意指網頁的表格，多作為整張表格的父標籤之用，多內含th、tr、td等子標籤。
+
+        tr : 橫列; tr，全稱 table row，為一橫列。
+        td : 單元格裡的資訊; td，全稱table data，用來定義表格有幾個直行。
+        th : 欄位標題; th，全稱 table header，為表格欄位的標題。
+-->
