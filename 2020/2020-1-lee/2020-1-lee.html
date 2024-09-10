@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日期計算工具</title>
+    <link rel="stylesheet" href="2020-1-lee.css"> <!-- 連結 CSS 文件 -->
+</head>
+<body>
+    <div class="calculator">
+        <h2>起始日期</h2>
+        <label for="year">年:</label>
+        <input type="text" id="year-input" placeholder="yyyy" title="請輸入 4 位數字的西元年">
+        <select id="year-select" style="display:none;"></select> <!-- 年的下拉選單 -->
+
+        <label for="month">月:</label>
+        <input type="text" id="month-input" placeholder="mm" title="請輸入 1~12 代表月份的數字">
+        <select id="month-select" style="display:none;"></select> <!-- 月的下拉選單 -->
+
+        <label for="day">日:</label>
+        <input type="text" id="day-input" placeholder="dd" title="請輸入 1~31 代表一個月內第幾天的數字">
+        <select id="day-select" style="display:none;"></select> <!-- 日的下拉選單 -->
+
+        <button id="today">今天</button>
+
+        <div class="interval">
+            <select id="operation">
+                <option value="+">+</option>
+                <option value="-">-</option>
+            </select>
+            <input type="number" id="years" value="0"> 年
+            <input type="number" id="months" value="0"> 月
+            <input type="number" id="weeks" value="0"> 週
+            <input type="number" id="days" value="0"> 天
+        </div>
+
+        <button id="calculate">計算</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- 連結 jQuery -->
+    <script src="2020-1-lee.js"></script> <!-- 連結 JavaScript 文件 -->
+</body>
+</html>
