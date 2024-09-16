@@ -21,7 +21,8 @@
 
 imageType="";
 
-function checkpicture(){ //紀錄bug 能夠讀取檔案並且 跳出視窗 但是檔案還是會進去 不知道是不是一定會進去 或是 可以忽略這部分
+function checkpicture(){ 
+//紀錄bug 能夠讀取檔案並且 跳出視窗 但是檔案還是會進去 不知道是不是一定會進去 或是 可以忽略這部分
     let file = document.getElementById('file');
     file = file.files[0];
 
@@ -66,11 +67,11 @@ function compressionpic(image){
         canvas.height = canvas.height*0.5;
         console.log(canvas.width,canvas.height);
     }
-    let ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0, canvas.width, canvas.height); // 把圖片畫在畫布上(0,0)作標到(canvas.width,canvas.height)
+    //let ctx = canvas.getContext("2d");
+    //ctx.drawImage(image, 0, 0, canvas.width, canvas.height); // 把圖片畫在畫布上(0,0)作標到(canvas.width,canvas.height)
 
     let newImg = canvas.toDataURL(imageType, 0.8); // 0.8是圖片壓縮比
-    console.log("compressionpic觸發")
+    //console.log("compressionpic觸發")
     return newImg;
 }
 
