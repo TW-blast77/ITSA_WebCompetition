@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2020ex3</title>
+    <link href="ex3style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <label for="int">請輸入整數</label>
+    <br>
+    <input type="text" id="int" oninput="intDetection(event)" onchange="checkAllConditions()">
+    <span id="intCheck" class="checkmark" style="display: none"></span>
+    <p id="intError"></p>
+    <br>
+
+    <label for="name">姓名</label>
+    <br>
+    <input type="text" id="name" oninput="nameDetection(event)" onchange="checkAllConditions()">
+    <span id="nameCheck" class="checkmark" style="display: none"></span>
+    <p id="nameError"></p>
+    <br>
+
+    <label for="username">使用者名稱</label>
+    <br>
+    <input type="text" id="username" oninput="usernameDetection(event)" onchange="checkAllConditions()">
+    <span id="usernameCheck" class="checkmark" style="display: none"></span>
+    <p id="usernameError"></p>
+    <br>
+
+    <label for="email">電郵</label><br>
+    <input type="text" id="email" oninput="emailDetection(event)" onchange="checkAllConditions()">
+    <span id="emailCheck" class="checkmark" style="display: none"></span>
+    <p id="emailError"></p>
+    <br>
+
+    <label for="password">密碼</label><br>
+    <input type="password" id="password" oninput="passwordDetection(event)" onchange="checkAllConditions()">
+    <span id="passwordCheck" class="checkmark" style="display: none"></span>
+    <p id="passwordError"></p>
+    <br>
+
+    <label for="agapassword">再次輸入密碼</label><br>
+    <input type="password" id="agapassword" oninput="agapasswordDetection(event)" onchange="checkAllConditions()">
+    <span id="agapasswordCheck" class="checkmark" style="display: none"></span>
+    <p id="agapasswordError"></p>
+    <br>
+
+    <input type="button" value="提交" id="correct" disabled>
+</body>
+
+<script src="ex3.js"></script>
+
+</html>

@@ -1,0 +1,43 @@
+body{
+    background-color: black;
+    color: white;
+}
+p{
+    color: red;
+    font-size: 10px;
+}
+.checkmark {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    margin-left: 10px;
+    vertical-align: middle;
+    position: relative;
+}
+
+.checkmark::after {
+    content: "✓";
+    color: green;
+    font-size: 18px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;  /* 隱藏但保留佔位 */
+}
+
+input:valid + .checkmark::after {
+    opacity: 1;  /* 顯示勾勾 */
+}
+
+input:invalid + .checkmark::after {
+    opacity: 0;  /* 隱藏勾勾 */
+}
+
+p {
+    color: red;
+    font-size: 14px;
+}
